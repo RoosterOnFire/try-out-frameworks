@@ -1,15 +1,28 @@
 ---
+import LinkCard from "../components/LinkCard.astro";
+import DefaultLayout from "../layouts/DefaultLayout.astro";
+
+const links = [
+  [
+    `${Astro.url.origin}/svelte/product-overview-with-grid`,
+    "Product overview with grid",
+    "Svelte",
+  ],
+  [
+    `${Astro.url.origin}/vue/product-overview-with-grid`,
+    "Product overview with grid",
+    "Vue",
+  ],
+];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<DefaultLayout>
+  <main class='h-full flex justify-center items-center'>
+    <ul
+      role='list'
+      class='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3'
+    >
+      {links.map((link) => <LinkCard link={link} />)}
+    </ul>
+  </main>
+</DefaultLayout>
