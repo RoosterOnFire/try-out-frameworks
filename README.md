@@ -1,3 +1,3 @@
 # Try out frameworks
 
-Small projet to try and learn frameworks.
+Repo for trying Astro with Vue, Svelte and rest integrations.
