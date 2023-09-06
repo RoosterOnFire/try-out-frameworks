@@ -1,13 +1,11 @@
-<script setup lang="ts">
-import type { PropType } from "vue";
-
+<script setup>
 const props = defineProps({
-  breadcrumbs: { type: Array as PropType<string[]> },
+  breadcrumbs: Array,
 });
 </script>
 
 <template>
-  <nav v-if="breadcrumbs" aria-label="Breadcrumb">
+  <nav aria-label="Breadcrumb">
     <ol
       role="list"
       class="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8"

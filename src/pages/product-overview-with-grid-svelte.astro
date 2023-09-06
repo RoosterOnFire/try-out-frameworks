@@ -1,0 +1,26 @@
+---
+import DefaultLayout from "../layouts/DefaultLayout.astro";
+import ProductOverviewWithGridProductInfo from "../components/ProductOverviewWithGridProductInfo.svelte";
+import ProductOverviewWithGridBreadcrumb from "../components/ProductOverviewWithGridBreadcrumb.svelte";
+import ProductOverviewWithGridImageGallery from "../components/ProductOverviewWithGridImageGallery.svelte";
+
+const productid = 1;
+
+const resBreadcrumbs = await fetch(
+  `${Astro.url.origin}/api/breadcrumbs/${productid}.json`
+);
+const breadcrumbs = await resBreadcrumbs.json();
+
+const res = await fetch(`${Astro.url.origin}/api/products/${productid}.json`);
+const { images, ...product } = await res.json();
+---
+
+<DefaultLayout>
+  <div class='bg-white'>
+    <div class='pt-6'>
+      <ProductOverviewWithGridBreadcrumb breadcrumbs={breadcrumbs} />
+      <ProductOverviewWithGridImageGallery images={images} />
+      <ProductOverviewWithGridProductInfo product={product} />
+    </div>
+  </div>
+</DefaultLayout>
