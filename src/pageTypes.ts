@@ -3,18 +3,14 @@ export interface Products {
 }
 
 export interface Product {
-  id: number;
   name: string;
-  description: string;
-  descriptionHighlights: string[];
-  details: string;
   price: number;
-  reviews: { average: number; total: number };
-  color: string[];
-  size: { name: string; stock: number }[];
-  images: string[][];
-}
-
-export interface Breadcrumbs {
-  [key: string]: string[][];
+  href: string;
+  breadcrumbs: { id: number; name: string; href: string }[];
+  images: { src: string; alt: string }[];
+  colors: { name: string; class: string; selectedClass: string }[];
+  sizes: { name: string; inStock: boolean }[];
+  description: string;
+  highlights: string[];
+  details: string;
 }
