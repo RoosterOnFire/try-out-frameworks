@@ -1,8 +1,8 @@
 <script setup>
-  import FormGeneratorInputWithPrefix from "./FormGeneratorInputWithPrefix.svelte";
-  import FormGeneratorPhoto from "./FormGeneratorPhoto.svelte";
-  import FormGeenratorTextarea from "./FormGeneratorTextarea.svelte";
-  import FormGeneratorUpload from "./FormGeneratorUpload.svelte";
+  import InputWithPrefix from "./InputWithPrefix.svelte";
+  import Photo from "./Photo.svelte";
+  import Textarea from "./Textarea.svelte";
+  import Upload from "./Upload.svelte";
 
   export let formBlocks;
 </script>
@@ -20,7 +20,7 @@
         <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           {#each formBlock.elements as element, formElementIndex}
             {#if element.type == "inputWithPrefix"}
-              <FormGeneratorInputWithPrefix
+              <InputWithPrefix
                 id={`${element.name}-${formElementIndex}`}
                 name={element.name}
                 label={element.label}
@@ -28,20 +28,20 @@
                 placeholder={element.placeholder}
               />
             {:else if element.type == "textarea"}
-              <FormGeenratorTextarea
+              <Textarea
                 id={`${element.name}-${formElementIndex}`}
                 name={element.name}
                 label={element.label}
                 placeholder={element.placeholder}
               />
             {:else if element.type == "photo"}
-              <FormGeneratorPhoto
+              <Photo
                 id={`${element.name}-${formElementIndex}`}
                 name={element.name}
                 label={element.label}
               />
             {:else if element.type == "upload"}
-              <FormGeneratorUpload
+              <Upload
                 id={`${element.name}-${formElementIndex}`}
                 name={element.name}
                 label={element.label}
