@@ -1,23 +1,31 @@
 ---
-import DefaultLayout from "../layouts/DefaultLayout.astro";
-import ProductOverviewWithGridBreadcrum from "../components/ProductOverviewWithGrid/Breadcrumbs.astro";
-import ProductOverviewWithGridImageGallery from "../components/ProductOverviewWithGrid/ImageGallery.astro";
-import ProductOverviewWithGridProductInfo from "../components/ProductOverviewWithGrid/ProductInformation.svelte";
+import Breadcrum from "../../components/ProductOverviewWithGridBreadcrumbs.astro";
+import Colors from "../../components/ProductOverviewWithGridColors.svelte";
+import ImageGallery from "../../components/ProductOverviewWithGridImageGallery.astro";
+import Sizes from "../../components/ProductOverviewWithGridSizes.svelte";
+import Reviews from "../../components/ProductOverviewWithGridReviews.svelte";
+import DefaultLayout from "../../layouts/DefaultLayout.astro";
 
-const productid = 1;
+export function getStaticPaths() {
+  return [{ params: { productid: 1 } }, { params: { productid: 2 } }];
+}
+
+const { productid } = Astro.params;
 
 const res = await fetch(`${Astro.url.origin}/api/products/${productid}.json`);
 const { breadcrumbs, images, ...product } = await res.json();
+
+const resProductReviews = await fetch(
+  `${Astro.url.origin}/api/products/reviews/${productid}.json`
+);
+const reviews = await resProductReviews.json();
 ---
 
 <DefaultLayout title={product.name}>
   <div class='bg-white'>
     <div class='pt-6'>
-      <ProductOverviewWithGridBreadcrum
-        productName={product.name}
-        breadcrumbs={breadcrumbs}
-      />
-      <ProductOverviewWithGridImageGallery images={images} />
+      <Breadcrum productName={product.name} breadcrumbs={breadcrumbs} />
+      <ImageGallery images={images} />
       <div
         class='mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16'
       >
@@ -28,7 +36,21 @@ const { breadcrumbs, images, ...product } = await res.json();
             {product.name}
           </h1>
         </div>
-        <ProductOverviewWithGridProductInfo client:load product={product} />
+        <div class='mt-4 lg:row-span-3 lg:mt-0'>
+          <h2 class='sr-only'>Product information</h2>
+          <p class='text-3xl tracking-tight text-gray-900'>${product.price}</p>
+          <Reviews {reviews} />
+          <form class='mt-10'>
+            <Colors client:load colors={product.colors} />
+            <Sizes client:load sizes={product.sizes} />
+            <button
+              type='submit'
+              class='mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
+            >
+              Add to bag
+            </button>
+          </form>
+        </div>
         <div
           class='py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6'
         >

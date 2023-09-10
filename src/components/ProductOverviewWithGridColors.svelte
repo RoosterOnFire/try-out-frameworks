@@ -1,5 +1,7 @@
 <script>
   export let colors;
+
+  let selectedColor = undefined;
 </script>
 
 <div>
@@ -8,16 +10,22 @@
   <fieldset class="mt-4">
     <legend class="sr-only">Choose a color</legend>
     <div class="flex items-center space-x-3">
+      <!--
+        Active and Checked: "ring ring-offset-1"
+        Not Active and Checked: "ring-2"
+      -->
       {#each colors as color, key}
         <label
-          class="relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none ring-gray-400"
+          class="relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none ring-gray-400 {color.name ==
+            selectedColor && 'ring-2'}"
         >
           <input
             type="radio"
-            name="color-{color.name}"
+            name="color-choice"
             value={color.name}
             class="sr-only"
             aria-labelledby="color-choice-{key}-label"
+            bind:group={selectedColor}
           />
           <span id="color-choice-{key}-label" class="sr-only">{color.name}</span
           >

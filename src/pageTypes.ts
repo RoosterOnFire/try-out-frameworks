@@ -14,3 +14,13 @@ export interface Product {
   highlights: string[];
   details: string;
 }
+
+export interface Reviews {
+  [key: string]: Review;
+}
+
+export interface Review {
+  href: string;
+  average: number;
+  totalCount: number;
+}
