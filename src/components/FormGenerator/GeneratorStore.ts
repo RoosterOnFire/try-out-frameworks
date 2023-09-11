@@ -1,6 +1,6 @@
 import { writable } from "svelte/store";
 
-function createFormState() {
+function createGeneratorStore() {
   const formStateWritable = writable({});
 
   return {
@@ -25,4 +25,4 @@ function createFormState() {
   };
 }
 
-export const formState = createFormState();
+export const generatorStore = createGeneratorStore();

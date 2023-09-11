@@ -1,11 +1,15 @@
 <script setup>
   import { onMount } from "svelte";
-  import Block from "./Block.svelte";
-  import { formState } from "./GeneratorStore";
-  import InputWithPrefix from "./InputWithPrefix.svelte";
-  import Photo from "./Photo.svelte";
-  import Textarea from "./Textarea.svelte";
-  import Upload from "./Upload.svelte";
+  import { generatorStore } from "./GeneratorStore";
+  import Block from "./elements/Block.svelte";
+  import CheckboxListWithDescription from "./elements/CheckboxListWithDescription.svelte";
+  import Input from "./elements/Input.svelte";
+  import InputWithPrefix from "./elements/InputWithPrefix.svelte";
+  import Photo from "./elements/Photo.svelte";
+  import Select from "./elements/Select.svelte";
+  import Textarea from "./elements/Textarea.svelte";
+  import Upload from "./elements/Upload.svelte";
+  import RadioList from "./elements/RadioList.svelte";
 
   export let formBlocks;
 
@@ -13,38 +17,57 @@
 
   function synsStore(event) {
     const formdata = new FormData(generatorForm);
-    formState.update(event.detail, formdata.get(event.detail));
+    generatorStore.update(event.detail, formdata.get(event.detail));
   }
 
   function handleSubmit() {
-    console.log($formState);
+    console.log($generatorStore);
   }
 
   onMount(() => {
-    formState.init(formBlocks);
+    generatorStore.init(formBlocks);
   });
 </script>
 
 <form bind:this={generatorForm} on:submit|preventDefault={handleSubmit}>
   <div class="space-y-12">
     {#each formBlocks as formBlock}
-      <Block header={formBlock.header} content={formBlock.content}>
+      <Block {...formBlock}>
         {#each formBlock.elements as element, formElementIndex}
-          {#if element.type == "inputWithPrefix"}
+          {#if element.type == "input"}
+            <Input
+              id={`${element.name}-${formElementIndex}`}
+              {...element}
+              on:elementValueChanged={synsStore}
+            />
+          {:else if element.type == "inputWithPrefix"}
             <InputWithPrefix
               id={`${element.name}-${formElementIndex}`}
-              name={element.name}
-              label={element.label}
-              prefix={element.prefix}
-              placeholder={element.placeholder}
+              {...element}
               on:elementValueChanged={synsStore}
             />
           {:else if element.type == "textarea"}
             <Textarea
               id={`${element.name}-${formElementIndex}`}
-              name={element.name}
-              label={element.label}
-              placeholder={element.placeholder}
+              {...element}
+              on:elementValueChanged={synsStore}
+            />
+          {:else if element.type == "select"}
+            <Select
+              id={`${element.name}-${formElementIndex}`}
+              {...element}
+              on:elementValueChanged={synsStore}
+            />
+          {:else if element.type == "checkbox-list-with-description"}
+            <CheckboxListWithDescription
+              id={`${element.name}-${formElementIndex}`}
+              {...element}
+              on:elementValueChanged={synsStore}
+            />
+          {:else if element.type == "radio-list"}
+            <RadioList
+              id={`${element.name}-${formElementIndex}`}
+              {...element}
               on:elementValueChanged={synsStore}
             />
           {:else if element.type == "photo"}
@@ -54,13 +77,7 @@
               label={element.label}
             />
           {:else if element.type == "upload"}
-            <Upload
-              id={`${element.name}-${formElementIndex}`}
-              name={element.name}
-              label={element.label}
-              fileTypes={element.fileTypes}
-              fileMaxSize={element.fileMaxSize}
-            />
+            <Upload id={`${element.name}-${formElementIndex}`} {...element} />
           {/if}
         {/each}
       </Block>
