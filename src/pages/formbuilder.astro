@@ -1,0 +1,14 @@
+---
+import DefaultLayout from "../layouts/DefaultLayout.astro";
+import FormBuilder from "../components/FormBuilder/FormBuilder.svelte";
+---
+
+<DefaultLayout>
+  <div class='bg-white'>
+    <div class='mx-auto max-w-7xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8'>
+      <div class='mx-auto max-w-2xl'>
+        <FormBuilder client:load />
+      </div>
+    </div>
+  </div>
+</DefaultLayout>
