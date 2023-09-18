@@ -6,10 +6,6 @@ import Reviews from "../../components/ProductOverviewWithGrid/Reviews.svelte";
 import Sizes from "../../components/ProductOverviewWithGrid/Sizes.svelte";
 import DefaultLayout from "../../layouts/DefaultLayout.astro";
 
-export function getStaticPaths() {
-  return [{ params: { productid: 1 } }, { params: { productid: 2 } }];
-}
-
 const { productid } = Astro.params;
 
 const res = await fetch(`${Astro.url.origin}/api/products/${productid}.json`);

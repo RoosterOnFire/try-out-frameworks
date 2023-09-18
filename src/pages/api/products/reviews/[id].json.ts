@@ -20,7 +20,3 @@ export const GET: APIRoute = ({ params, request }) => {
 
   return new Response(JSON.stringify(reviews[id]));
 };
-
-export function getStaticPaths() {
-  return [{ params: { id: "1" } }, { params: { id: "2" } }];
-}

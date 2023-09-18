@@ -117,7 +117,3 @@ export const GET: APIRoute = ({ params, request }) => {
 
   return new Response(JSON.stringify(products[id]));
 };
-
-export function getStaticPaths() {
-  return [{ params: { id: "1" } }, { params: { id: "2" } }];
-}
